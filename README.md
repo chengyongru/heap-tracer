@@ -3,7 +3,7 @@
 ## dependency
 
 ```sh
-sudo apt install libbsd-dev
+sudo apt install libbsd-dev libunwind-dev
 ```
 
 ## compile
