@@ -64,6 +64,20 @@ __attribute__((constructor)) static void init_hooks() {
 
     fprintf(stderr, "Hooks initialized successfully.\n");
 }
+
+__attribute__((destructor)) static void cleanup() {
+    pthread_mutex_lock(&tree_mutex);
+    allocation *entry;
+    while ((entry = RB_MIN(alloc_tree, &allocations)) != NULL) {
+        RB_REMOVE(alloc_tree, &allocations, entry);
+        printf("leak mallocid: %ld\n", entry->id);
+        real_free(entry);
+    }
+    printf("\n");
+    pthread_mutex_unlock(&tree_mutex);
+    fprintf(stderr, "Red-black tree cleaned up.\n");
+}
+
 char **get_backtrace_symbols(void **buffer, int size) {
     char **symbols = real_malloc(size * sizeof(char *));
     for (int i = 0; i < size; i++) {
