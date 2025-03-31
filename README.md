@@ -14,7 +14,7 @@ mkdir build && cd build && cmake ..
 ## use
 Run the executable with: `LD_PRELOAD=PATH/TO/libmalloc.so ./myexecutable`
 
-or in GDB with: `set exec-wrapper env 'LD_PRELOAD=./libmalloc.so'`
+or in GDB with: `set environment LD_PRELOAD=./libmalloc.so`
 
 ## output -> stderr
 
